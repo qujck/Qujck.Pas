@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Qujck.Pas.Data
+namespace Qujck.Pas.Model
 {
-    public class Class1
+    public interface ICode
     {
+        string code { get; }
     }
 }

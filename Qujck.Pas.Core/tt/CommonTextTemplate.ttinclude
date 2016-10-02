@@ -1,0 +1,12 @@
+﻿<#@ assembly name="System.Core" 
+#><#@ assembly name="System.Data" 
+#><#@ import namespace="System.Data" 
+#><#@ import namespace="System.Data.SqlClient" 
+#><#@ import namespace="System.Collections.Generic" 
+#><#@ import namespace="System.Linq" 
+#><#@ import namespace="System.Text" 
+#><#@ assembly name="System.Data.Entity.Design" 
+#><#@ include file="Entities.ttinclude" 
+#><#@ include file="Queries.ttinclude" 
+#><#@ include file="Formatting.ttinclude" 
+#>

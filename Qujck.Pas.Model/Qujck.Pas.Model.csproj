@@ -1,0 +1,926 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9327E0C0-CD30-4F49-8EE4-7D1E16A52135}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Qujck.Pas.Model</RootNamespace>
+    <AssemblyName>Qujck.Pas.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataObjects\DataObjects.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Infrastructure.ErrorLogDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Infrastructure.SystemDatesDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.BatchDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.BatchInstructionDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.BatchInstructionEndDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.BatchSchedulerDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.CreateAdhocWithdrawalLetterDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.CreateAdvanceNoticeLetterDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.CreateChangeOfAddressLetterDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.CreateEscalationLetterDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.CreateFundSwitchLetterDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.CreateIssuePackDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.CreateMaturityLetterDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.CreateMaturityWakeUpLetterDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.CreateNtuLetterDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.CreateRegularStatementDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.CreateRiskClaimLetterDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.CreateSurrenderLetterDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.CreateTopUpLetterDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.GenerateFakeContractsDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.GenerateFakePricesDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.InitiateEtlDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.InstructionScheduleDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.MaintainRegularWithdrawalDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.ProcessAdhocWithdrawalDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.ProcessBillingDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.ProcessEscalationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.ProcessFundSwitchDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.ProcessIssueDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.ProcessMaturityDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.ProcessNtuDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.ProcessRegularFundBasedChargeDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.ProcessRegularWithdrawalDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.ProcessRiskClaimDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.ProcessRiskCoverChargeDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.ProcessSurrenderDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.ProcessTopUpDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.ProcessUnitAdjustmentDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.RiskCoverCalculationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.SetBusinessDateDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Instruction.UnitPurchaseDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.AddressChangeContentDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.BacsInDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.BacsOutDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.ContractContentDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.EscalationContentDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.FundAllocationContentDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.FundUnitHoldingContentDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.FundUnitHoldingValueDetailDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.FundUnitHoldingValueHeaderDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.FundUnitTransactionBuyContentDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.FundUnitTransactionSellContentDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.LetterContentDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.LetterFooterDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.LetterHeaderDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.LetterWrapperDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.LifeAssuredContentDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.MaturityContentDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.MetaDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.MonetaryTransactionContentDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.MoneyInContentDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.NewAddressContentDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.OldAddressContentDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Interface.OwnerContentDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.AddressDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.AdhocWithdrawalDetailDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.AdhocWithdrawalHeaderDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.AlertDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.BillingDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.ContractDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.ContractStatusDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.DisbursementDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.EmailDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.ExternalUserDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.FinancialInstitutionAccountDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.FundAllocationDetailDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.FundAllocationHeaderDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.FundSwitchDetailDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.FundSwitchHeaderDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.FundUnitHoldingDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.FundUnitTransactionDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.InvestmentBenefitDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.IssueDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.MaturityDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.MaturityWakeUpLetterDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.MonetaryTransactionDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.MoneyInDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.NonMonetaryTransactionDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.NoteDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.NtuDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.OrganisationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.PartyDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.PartyTransactionDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.Party_AddressDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.Party_ContractDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.Party_RiskCoverDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.RiskBenefitDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.RiskClaimDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.RiskCoverDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.SmokerStatusDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.SurrenderDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.TelephoneDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.TopUpDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.UnitAdjustmentDetailDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Policy.UnitAdjustmentHeaderDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Security.SecurityEntitlementDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Security.SecurityRoleDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Security.SecurityUserDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Security.SecurityUser_SecurityEntitlementDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Security.SecurityUser_SecurityRoleDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.BatchInstructionConfigurationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.BrandDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.DocumentConfigurationCommunicationMethodDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.DocumentConfigurationCopyRoleDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.DocumentConfigurationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.DocumentConfigurationRecipientRoleDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.EtlConfigurationDetailDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.EtlConfigurationHeaderDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.EtlInitiationEventConfigurationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.EtlTypeConfigurationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.FundDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.FundUnitDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.FundUnitPriceDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.IndexationRateDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.InstructionConfigurationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.InstructionConfiguration_DocumentConfigurationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.InvestmentBenefitConfigurationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.InvestmentBenefitConfiguration_FundDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.MoneyInConfigurationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.MoneyInConfiguration_FundDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.ProductConfigurationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.ProductConfiguration_InvestmentBenefitConfigurationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.ProductConfiguration_MoneyInConfigurationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.ProductConfiguration_RiskBenefitConfigurationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.RiskBenefitConfigurationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.RiskBenefitConfiguration_RiskCoverConfigurationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.RiskCoverConfigurationDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataObjects\Standing.RiskRateDo.tt.cs">
+      <DependentUpon>DataObjects.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Instruction.Batch.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.BatchInstruction.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.BatchInstructionEnd.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.BatchScheduler.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.CreateAdhocWithdrawalLetter.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.CreateAdvanceNoticeLetter.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.CreateChangeOfAddressLetter.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.CreateEscalationLetter.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.CreateFundSwitchLetter.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.CreateIssuePack.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.CreateMaturityLetter.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.CreateMaturityWakeUpLetter.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.CreateNtuLetter.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.CreateRegularStatement.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.CreateRiskClaimLetter.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.CreateSurrenderLetter.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.CreateTopUpLetter.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.GenerateFakeContracts.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.GenerateFakePrices.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.InitiateEtl.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.InstructionSchedule.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.MaintainRegularWithdrawal.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.ProcessAdhocWithdrawal.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.ProcessBilling.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.ProcessEscalation.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.ProcessFundSwitch.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.ProcessIssue.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.ProcessMaturity.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.ProcessNtu.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.ProcessRegularFundBasedCharge.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.ProcessRegularWithdrawal.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.ProcessRiskClaim.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.ProcessRiskCoverCharge.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.ProcessSurrender.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.ProcessTopUp.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.ProcessUnitAdjustment.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.RiskCoverCalculation.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.SetBusinessDate.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Instruction.UnitPurchase.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.AddressChangeContent.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.BacsIn.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.BacsOut.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.ContractContent.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.EscalationContent.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.FundAllocationContent.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.FundUnitHoldingContent.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.FundUnitHoldingValueDetail.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.FundUnitHoldingValueHeader.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.FundUnitTransactionBuyContent.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.FundUnitTransactionSellContent.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.LetterContent.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.LetterFooter.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.LetterHeader.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.LetterWrapper.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.LifeAssuredContent.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.MaturityContent.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.Meta.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.MonetaryTransactionContent.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.MoneyInContent.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.NewAddressContent.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.OldAddressContent.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface.OwnerContent.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Address.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.AdhocWithdrawalDetail.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.AdhocWithdrawalHeader.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Alert.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Billing.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Contract.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.ContractStatus.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Disbursement.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Email.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.ExternalUser.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.FinancialInstitutionAccount.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.FundAllocationDetail.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.FundAllocationHeader.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.FundSwitchDetail.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.FundSwitchHeader.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.FundUnitHolding.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.FundUnitTransaction.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.InvestmentBenefit.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Issue.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Maturity.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.MaturityWakeUpLetter.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.MonetaryTransaction.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.MoneyIn.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.NonMonetaryTransaction.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Note.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Ntu.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Organisation.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Party.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.PartyTransaction.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Party_Address.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Party_Contract.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Party_RiskCover.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.RiskBenefit.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.RiskClaim.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.RiskCover.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.SmokerStatus.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Surrender.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.Telephone.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.TopUp.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.UnitAdjustmentDetail.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Policy.UnitAdjustmentHeader.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security.SecurityEntitlement.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Security.SecurityRole.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Security.SecurityUser.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Security.SecurityUser_SecurityEntitlement.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Security.SecurityUser_SecurityRole.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.BatchInstructionConfiguration.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.Brand.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.DocumentConfiguration.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.DocumentConfigurationCommunicationMethod.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.DocumentConfigurationCopyRole.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.DocumentConfigurationRecipientRole.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.EtlConfigurationDetail.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.EtlConfigurationHeader.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.EtlInitiationEventConfiguration.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.EtlTypeConfiguration.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.Fund.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.FundUnit.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.FundUnitPrice.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.IndexationRate.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.InstructionConfiguration.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.InstructionConfiguration_DocumentConfiguration.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.InvestmentBenefitConfiguration.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.InvestmentBenefitConfiguration_Fund.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.MoneyInConfiguration.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.MoneyInConfiguration_Fund.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.ProductConfiguration.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.ProductConfiguration_InvestmentBenefitConfiguration.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.ProductConfiguration_MoneyInConfiguration.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.ProductConfiguration_RiskBenefitConfiguration.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.RiskBenefitConfiguration.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.RiskBenefitConfiguration_RiskCoverConfiguration.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.RiskCoverConfiguration.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Standing.RiskRate.tt.cs">
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="_Infrastructure\AbstractEntity.cs" />
+    <Compile Include="_Infrastructure\AbstractInfrastructureEntity.cs" />
+    <Compile Include="_Infrastructure\AbstractInstructionEntity.cs" />
+    <Compile Include="_Infrastructure\AbstractInterfaceEntity.cs" />
+    <Compile Include="_Infrastructure\AbstractModel.cs" />
+    <Compile Include="_Infrastructure\AbstractPolicyEntity.cs" />
+    <Compile Include="_Infrastructure\AbstractSearchEntity.cs" />
+    <Compile Include="_Infrastructure\AbstractSecurityEntity.cs" />
+    <Compile Include="_Infrastructure\AbstractStandingEntity.cs" />
+    <Compile Include="_Infrastructure\DatabaseProperties.cs" />
+    <Compile Include="_Infrastructure\ErrorLog.cs" />
+    <Compile Include="_Infrastructure\ICode.cs" />
+    <Compile Include="_Infrastructure\IDeserializeDetails.cs" />
+    <Compile Include="_Infrastructure\IEntityCollectionAsEntityLoadStrategy.cs" />
+    <Compile Include="_Infrastructure\IEntityCollectionLoadStrategy.cs" />
+    <Compile Include="_Infrastructure\IEntityLoadStrategy.cs" />
+    <Compile Include="_Infrastructure\IInstruction.cs" />
+    <Compile Include="_Infrastructure\IReferenceContract.cs" />
+    <Compile Include="_Infrastructure\IReferenceParty.cs" />
+    <Compile Include="_Infrastructure\SystemDates.cs" />
+    <Compile Include="_Infrastructure\TypeSourceCode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataObjects\DataObjects.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DataObjects.cs</LastGenOutput>
+    </Content>
+    <Content Include="Entities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Entities.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Qujck.Pas.Core\Qujck.Pas.Core.csproj">
+      <Project>{016243cc-3da9-41e0-9e7a-29c22eed41e7}</Project>
+      <Name>Qujck.Pas.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

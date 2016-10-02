@@ -1,0 +1,177 @@
+﻿<#@ assembly name="System.Core" 
+#><#@ assembly name="System.Data" 
+#><#@ import namespace="System.Data" 
+#><#@ import namespace="System.Data.SqlClient" 
+#><#@ import namespace="System.Collections.Generic" 
+#><#@ import namespace="System.Linq" 
+#><#@ import namespace="System.Text" 
+#><#@ assembly name="System.Data.Entity.Design" 
+#><#+
+public enum Namespace
+{
+	PAS = 0,
+	History = 1,
+	NA
+}
+
+public class Entity
+{
+    public string Name { get; set; }
+	public string Reference { get; set; }
+    public string Type { get; set; }
+    public string Roles { get; set; }
+    public string Description { get; set; }
+}
+
+public class EntityDetail
+{
+    public string Entity { get; set; }
+    public string Attribute { get; set; }
+    public int Sequence { get; set; }
+    public DataType DataType { get; set; }
+    public string Nullable { get; set; }
+    public string IsIdentity { get; set; }
+    public Nullable<int> PKSequence { get; set; }
+    public string Enum { get; set; }
+    public string Pattern { get; set; }
+    public string Default { get; set; }
+    public string Description { get; set; }
+    public string Annotation { get; set; }
+    public Nullable<int> UniqueSequence { get; set; }
+}
+
+public partial class DataType
+{
+    public string Name { get; set; }
+    public string MSSQL { get; set; }
+    public string dotNET { get; set; }
+    public string XSD { get; set; }
+    public Nullable<int> Length { get; set; }
+    public Nullable<int> Precision { get; set; }
+    public Nullable<int> Scale { get; set; }
+    public string Pattern { get; set; }
+    public string MinInclusive { get; set; }
+    public string MaxInclusive { get; set; }
+}
+
+public class Enumeration
+{
+	public string Name { get; set; }
+	public string Description { get; set; }
+}
+
+public class Enumerator
+{
+    public string Type { get; set; }
+    public string Value { get; set; }
+    public string Description { get; set; }
+}
+
+public class Relationship
+{
+    public string PKEntity { get; set; }
+    public char PKMultiplicity { get; set; }
+    public string FKEntity { get; set; }
+    public char FKMultiplicity { get; set; }
+    public string Type { get; set; }
+	public string CascadeDelete { get; set; }
+    public int Sequence { get; set; }
+}
+
+public class RelationshipDetail
+{
+    public string PKEntity { get; set; }
+    public string PKAttribute { get; set; }
+    public string FKEntity { get; set; }
+    public string FKAttribute { get; set; }
+    public int Sequence { get; set; }
+}
+
+public class Index
+{
+    public string Code { get; set; }
+    public string Entity { get; set; }
+    public string Type { get; set; }
+}
+
+public partial class IndexDetail
+{
+    public string Index { get; set; }
+    public string Entity { get; set; }
+    public string Attribute { get; set; }
+    public int Sequence { get; set; }
+
+    public EntityDetail EntityDetail { get; set; }
+}
+
+public class Statistic
+{
+    public string Code { get; set; }
+    public string Entity { get; set; }
+}
+
+public partial class StatisticDetail
+{
+    public string Statistic { get; set; }
+    public string Entity { get; set; }
+    public string Attribute { get; set; }
+    public int Sequence { get; set; }
+
+    public EntityDetail EntityDetail { get; set; }
+}
+
+public class View
+{
+    public string Action { get; set; }
+    public string Name { get; set; }
+    public string Entity { get; set; }
+    public string Type { get; set; }
+	public string EntityType { get; set; }
+}
+
+public class ViewDetail
+{
+    public string View { get; set; }
+    public string Entity { get; set; }
+    public string Alias { get; set; }
+    public string Attribute { get; set; }
+    public string Name { get; set; }
+    public int Sequence { get; set; }
+
+    public EntityDetail EntityDetail { get; set; }
+}
+
+public class ViewJoin
+{
+    public string View { get; set; }
+    public string LeftEntity { get; set; }
+    public string LeftAlias { get; set; }
+    public string RightEntity { get; set; }
+    public string RightAlias { get; set; }
+    public string Filter { get; set; }
+    public int Sequence { get; set; }
+}
+
+public class Message
+{
+    public long Id { get; set; }
+    public string Reference { get; set; }
+    public string Text { get; set; }
+    public string Parameters { get; set; }
+    public string Severity { get; set; }
+    public string Locale { get; set; }
+}
+
+public class Sql
+{
+    public string Entity { get; set; }
+    public string Query { get; set; }
+    public string Type { get; set; }
+    public string Statement { get; set; }
+    public string Parameters { get; set; }
+    public string Result { get; set; }
+    public string ResultType { get; set; }
+
+    public string EntityType { get; set; }
+}
+#>

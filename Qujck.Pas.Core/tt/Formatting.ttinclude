@@ -1,0 +1,312 @@
+﻿<#@ assembly name="System.Core" 
+#><#@ assembly name="System.Data" 
+#><#@ import namespace="System.Data" 
+#><#@ import namespace="System.Data.SqlClient" 
+#><#@ import namespace="System.Collections.Generic" 
+#><#@ import namespace="System.Linq" 
+#><#@ import namespace="System.Text" 
+#><#@ assembly name="System.Data.Entity.Design" 
+#><#+
+public string PluralOf(string singular)
+{
+	if (singular.Contains(@"_"))
+    {
+		string[] parts =  singular.Split('_');
+		string single = parts[parts.Length - 1];
+		string plural = System.Data.Entity.Design.PluralizationServices.PluralizationService
+			.CreateService(System.Globalization.CultureInfo.CurrentCulture)
+			.Pluralize(single);
+		parts[parts.Length - 1] = plural != single ? plural : single + "es";
+		return string.Join(@"_", parts);
+    }
+	else
+    {
+		string single = singular;
+		string plural = System.Data.Entity.Design.PluralizationServices.PluralizationService
+			.CreateService(System.Globalization.CultureInfo.CurrentCulture)
+			.Pluralize(single);
+		return plural != single ? plural : single + "es";
+    }
+}
+
+public string XmlEscape(string text)
+{
+    return text.Replace("&", "&amp")
+        .Replace("<", "&lt;")
+        .Replace(">", "&gt;")
+        .Replace("=", "&eq;");
+}
+
+internal static string FirstLetterLowerCase(string word)
+{
+    if (word.Length <= 1)
+    {
+        return word.ToLower();
+    }
+    Char[] letters = word.ToCharArray();
+    letters[0] = Char.ToLower(letters[0]);
+    return new string(letters);
+}
+
+public string KeyExpression(string PKEntity, string FKEntity)
+{
+	string keys = null;
+	byte count = 0;
+
+	foreach(RelationshipDetail rd in GetRelationshipDetails(PKEntity, FKEntity))
+	{
+		count++;
+		if (count == 1)
+		{
+			keys = string.Format("k.{0}", rd.FKAttribute);
+		}
+		else
+		{
+			keys += string.Format(", k.{0}", rd.FKAttribute);
+		}
+	}
+
+	if (count == 1)
+	{
+		return string.Format("k => {0}", keys);
+	}
+	else
+	{
+		//use {{ to escape the {'s
+		return string.Format(@"k => new {{ {0} }}", keys);
+	}
+}
+
+public string JoinExpression(string leftEntity, string leftAlias, 
+	string rightEntity, string rightAlias)
+{
+	IEnumerable<RelationshipDetail> l2r = GetRelationshipDetails(leftEntity, rightEntity);
+	IEnumerable<RelationshipDetail> r2l = GetRelationshipDetails(rightEntity, leftEntity);
+	if (l2r.Count() == 0 && r2l.Count() == 0) 
+    {
+		throw new InvalidProgramException(string.Format("Cannot create relationship between '{0}' and '{1}'", 
+			leftEntity, rightEntity));
+    }
+	bool reversed = l2r.Count() == 0;
+	string result = null;
+
+	foreach(RelationshipDetail rd in (reversed ? r2l : l2r))
+    {
+		if (result != null)
+        {
+			result += string.Format(" && {0}.{1} == {2}.{3}", 
+				leftAlias, reversed ? rd.FKAttribute : rd.PKAttribute,
+				rightAlias, reversed ? rd.PKAttribute : rd.FKAttribute);
+        }
+		else
+        {
+			result = string.Format("{0}.{1} == {2}.{3}", 
+				leftAlias, reversed ? rd.FKAttribute : rd.PKAttribute,
+				rightAlias, reversed ? rd.PKAttribute : rd.FKAttribute);
+        }
+    }
+	return result;
+}
+
+public void SqlJoinExpression(string leftEntity, string leftAlias, 
+	string rightEntity, string rightAlias, 
+	out string leftKey, out string rightKey)
+{
+	IEnumerable<RelationshipDetail> l2r = GetRelationshipDetails(leftEntity, rightEntity);
+	IEnumerable<RelationshipDetail> r2l = GetRelationshipDetails(rightEntity, leftEntity);
+	if (l2r.Count() == 0 && r2l.Count() == 0) 
+    {
+		throw new InvalidProgramException(string.Format("Cannot create relationship between '{0}' and '{1}'", 
+			leftEntity, rightEntity));
+    }
+	bool reversed = l2r.Count() == 0;
+	leftKey = null;
+	rightKey = null;
+
+	foreach(RelationshipDetail rd in (reversed ? r2l : l2r))
+    {
+		if (leftKey != null)
+        {
+			leftKey += string.Format(", {0}.[{1}]", leftAlias, reversed ? rd.FKAttribute : rd.PKAttribute);
+			rightKey += string.Format(", {0}.[{1}]", rightAlias, reversed ? rd.PKAttribute : rd.FKAttribute);
+        }
+		else
+        {
+			leftKey = string.Format("{0}.[{1}]", leftAlias, reversed ? rd.FKAttribute : rd.PKAttribute);
+			rightKey = string.Format("{0}.[{1}]", rightAlias, reversed ? rd.PKAttribute : rd.FKAttribute);
+        }
+    }
+}
+
+public string EntityPK(string entity)
+{
+	int count = 0;
+	string PK = null;
+
+    IEnumerable<EntityDetail> PKs = 
+		from o in GetEntityDetails(entity)
+		where o.PKSequence != null
+		orderby o.PKSequence
+		select o;
+
+	foreach(EntityDetail ed in PKs)
+    {
+		count++;
+		if (count == 1) PK = string.Format("k.{0}", ed.Attribute);
+		else PK += string.Format(", k.{0}", ed.Attribute);
+    }
+	if (count == 0) return "k => k.id";
+	else if (count == 1) return string.Format("k => {0}", PK);
+	//use {{ to escape the {'s
+	else return string.Format(@"k => new {{ {0} }}", PK);
+}
+
+public string SQLPK(string entity)
+{
+	int count = 0;
+	string PK = null;
+
+    IEnumerable<EntityDetail> PKs = 
+		from o in GetEntityDetails(entity)
+		where o.PKSequence != null
+		orderby o.PKSequence
+		select o;
+
+	foreach(EntityDetail ed in PKs)
+    {
+		count++;
+		if (count == 1) PK = string.Format("[{0}]", ed.Attribute);
+		else PK += string.Format(", [{0}]", ed.Attribute);
+    }
+	if (count == 0) return "[id]";
+	else return PK;
+}
+
+public string CreateDoProperty(EntityDetail ed, bool typeSafeEnum = true)
+{
+	StringBuilder property = new StringBuilder();
+    property.AppendLine(string.Format(@"        public bool {0}HasValue {{ get; internal set; }}", ed.Attribute));
+	property.AppendLine(CreatePropertyVariable(ed, typeSafeEnum));
+	if (!string.IsNullOrEmpty(ed.Description))
+    {
+		property.AppendLine(@"        /// <summary>");
+		property.AppendLine(string.Format(@"        /// {0}", ed.Description));
+		property.AppendLine(@"        /// <summary>");
+    }
+
+	property.AppendLine(CreateBasicProperty(ed, typeSafeEnum));
+
+	property.AppendLine(@"        {");
+	property.AppendLine(@"            get");
+	property.AppendLine(@"            {");
+    property.AppendLine(string.Format(@"                return this.{0}Value;", ed.Attribute));
+	property.AppendLine(@"            }");
+	property.AppendLine(@"            internal set");
+	property.AppendLine(@"            {");
+    property.AppendLine(string.Format(@"                this.{0}HasValue = true;", ed.Attribute));
+    property.AppendLine(string.Format(@"                this.{0}Value = value;", ed.Attribute));
+	property.AppendLine(@"            }");
+	property.AppendLine(@"        }");
+
+	return property.ToString();
+}
+
+public string CreateProperty(EntityDetail ed, bool typeSafeEnum = true)
+{
+	StringBuilder property = new StringBuilder();
+	if (!string.IsNullOrEmpty(ed.Description))
+    {
+		property.AppendLine(@"        /// <summary>");
+		property.AppendLine(string.Format(@"        /// {0}", ed.Description));
+		property.AppendLine(@"        /// <summary>");
+    }
+	if (ed.DataType.Length != null && string.IsNullOrEmpty(ed.Enum))
+	{
+		property.AppendLine(string.Format(@"        [StringLength({0})]", ed.DataType.Length));
+    }
+	if (ed.DataType.dotNET == "string" && !string.IsNullOrEmpty(ed.DataType.Pattern))
+	{
+		property.AppendLine(string.Format(@"        [RegularExpression(@""{0}"")]", ed.DataType.Pattern));
+    }
+	if (ed.DataType.MSSQL == "date")
+	{
+		property.AppendLine(@"        [DisplayFormat(DataFormatString=""{0:d}"", ApplyFormatInEditMode=true)]");
+	}
+	
+	property.AppendLine(string.Format(@"        [XmlElement(ElementName=""{0}"")]", ed.Attribute));
+
+	property.Append(CreateBasicProperty(ed, typeSafeEnum));
+
+	return property.ToString();
+}
+
+public string CreateBasicProperty(EntityDetail ed, bool typeSafeEnum = true)
+{
+	StringBuilder property = new StringBuilder();
+
+	property.Append("        public ");
+	
+	if (typeSafeEnum && !string.IsNullOrEmpty(ed.Enum))
+    {
+		property.Append(ed.Enum);
+    }
+	else if (ed.DataType.dotNET != "string" && (ed.Nullable ?? "Y") == "Y")
+	{
+		property.Append(string.Format(@"{0}?", ed.DataType.dotNET));
+	}
+	else
+	{
+		property.Append(ed.DataType.dotNET);
+	}
+	property.Append(string.Format(" {0} ", ed.Attribute));
+
+	return property.ToString();
+}
+
+public string CreatePropertyVariable(EntityDetail ed, bool typeSafeEnum = true)
+{
+	StringBuilder property = new StringBuilder();
+
+	property.Append("        private ");
+	
+	if (typeSafeEnum && !string.IsNullOrEmpty(ed.Enum))
+    {
+		property.Append(ed.Enum);
+    }
+	else if (ed.DataType.dotNET != "string" && (ed.Nullable ?? "Y") == "Y")
+	{
+		property.Append(string.Format(@"{0}?", ed.DataType.dotNET));
+	}
+	else
+	{
+		property.Append(ed.DataType.dotNET);
+	}
+    property.Append(string.Format(" {0}Value  {{ get; set; }}", ed.Attribute));
+
+	return property.ToString();
+}
+
+public string FormatMSSQLDataType(DataType datatype)
+{
+	string d;
+	switch (datatype.MSSQL)
+    {
+		case "varchar":
+		case "char":
+			d = string.Format(@"{0}({1})", 
+				datatype.MSSQL, 
+				datatype.Length);
+			break;
+		case "decimal":
+			d = string.Format(@"{0}({1},{2})", 
+				datatype.MSSQL,
+				datatype.Precision,
+				datatype.Scale);
+			break;
+		default:
+			d = datatype.MSSQL;
+			break;
+	}
+	return d;
+}
+#>
