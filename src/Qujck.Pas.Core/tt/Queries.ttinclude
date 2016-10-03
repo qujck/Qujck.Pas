@@ -15,11 +15,225 @@ static class Data
 		AllDataTypes = GetAllDataTypes().ToList();
 		AllEntityDetails = GetAllEntityDetails().ToList();
 		AllEntities = GetAllEntities().ToList();
+		AllSqls = GetAllSqls().ToList();
+		AllIndexDetails = GetAllIndexDetails().ToList();
+		AllIndexes = GetAllIndexes().ToList();
+		//AllStatisticDetails = GetAllStatisticDetails().ToList();
+		//AllStatistics = GetAllStatistics().ToList();
+		AllViewJoins = GetAllViewJoins().ToList();
 	}
 	
+	static internal IEnumerable<ViewJoin> AllViewJoins { get; private set; }
+	static internal IEnumerable<StatisticDetail> AllStatisticDetails { get; private set; }
+	static internal IEnumerable<Statistic> AllStatistics { get; private set; }
+	static internal IEnumerable<IndexDetail> AllIndexDetails { get; private set; }
+	static internal IEnumerable<Sql> AllSqls { get; private set; }
 	static internal IEnumerable<EntityDetail> AllEntityDetails { get; private set; }
 	static internal IEnumerable<Entity> AllEntities { get; private set; }
 	static internal IEnumerable<DataType> AllDataTypes { get; private set; }
+	static internal IEnumerable<Index> AllIndexes { get; private set; }
+
+	static IEnumerable<ViewJoin> GetAllViewJoins()
+	{
+		string commandText = 
+			@"SELECT " +
+			"[View], " +
+			"LeftEntity, " +
+			"LeftAlias, " +
+			"RightEntity, " +
+			"RightAlias, " +
+			"Filter, " +
+			"Sequence " +
+			"FROM [Foundation].ViewJoin " +
+			"ORDER BY Sequence";
+
+		using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
+		{
+			connection.Open();
+			using(SqlCommand command = new SqlCommand(commandText, connection))
+			{
+				using(SqlDataReader reader = command.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						yield return new ViewJoin {
+							View = reader["View"].ToString(),
+							Sequence = (int)reader["Sequence"],
+							LeftEntity = reader["LeftEntity"].ToString(),
+							LeftAlias = reader["LeftAlias"].ToString(),
+							RightEntity = reader["RightEntity"].ToString(),
+							RightAlias = reader["RightAlias"].ToString(),
+							Filter = reader["Filter"].ToString()
+						};
+					}
+				}	
+			}
+		}
+	}
+
+	static IEnumerable<Statistic> GetAllStatistics()
+	{
+		string commandText = 
+			@"SELECT " +
+			"i.[Code], " +
+			"i.[Entity] " +
+			"FROM [Foundation].[Statistic] i " +
+			"INNER JOIN [Foundation].[Entity] e ON i.[Entity] = e.[Name] ";
+
+		using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
+		{
+			connection.Open();
+			using(SqlCommand command = new SqlCommand(commandText, connection))
+			{
+				using(SqlDataReader reader = command.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						yield return new Statistic {
+							Code = reader["Code"].ToString(),
+							Entity = reader["Entity"].ToString()
+						};
+					}
+				}	
+			}
+		}
+	}
+
+	static IEnumerable<StatisticDetail> GetAllStatisticDetails()
+	{
+		string commandText = 
+			@"SELECT " +
+			"[Statistic], " +
+			"Entity, " +
+			"Attribute, " +
+			"Sequence " +
+			"FROM Foundation.StatisticDetail " +
+			"ORDER BY Sequence";
+
+		using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
+		{
+			connection.Open();
+			using(SqlCommand command = new SqlCommand(commandText, connection))
+			{
+				using(SqlDataReader reader = command.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						yield return new StatisticDetail {
+							Statistic = reader["Statistic"].ToString(),
+							Entity = reader["Entity"].ToString(),
+							Attribute = reader["Attribute"].ToString(),
+							Sequence = (int)reader["Sequence"],
+							EntityDetail = GetEntityDetail(reader["Entity"].ToString(), reader["Attribute"].ToString())
+						};
+					}
+				}	
+			}
+		}
+	}
+
+	static IEnumerable<Index> GetAllIndexes()
+	{
+		string commandText = 
+			@"SELECT " +
+			"i.[Code], " +
+			"i.[Entity], " +
+			"i.[Type] " +
+			"FROM [Foundation].[Index] i " +
+			"INNER JOIN [Foundation].[Entity] e ON i.[Entity] = e.[Name] ";
+
+		using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
+		{
+			connection.Open();
+			using(SqlCommand command = new SqlCommand(commandText, connection))
+			{
+				using(SqlDataReader reader = command.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						yield return new Index {
+							Code = reader["Code"].ToString(),
+							Entity = reader["Entity"].ToString(),
+							Type = reader["Type"].ToString()
+						};
+					}
+				}	
+			}
+		}
+	}
+
+	static IEnumerable<IndexDetail> GetAllIndexDetails()
+	{
+		string commandText = 
+			@"SELECT " +
+			"[Index], " +
+			"Entity, " +
+			"Attribute, " +
+			"Sequence " +
+			"FROM Foundation.IndexDetail " +
+			"ORDER BY Sequence";
+
+		using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
+		{
+			connection.Open();
+			using(SqlCommand command = new SqlCommand(commandText, connection))
+			{
+				using(SqlDataReader reader = command.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						yield return new IndexDetail {
+							Index = reader["Index"].ToString(),
+							Entity = reader["Entity"].ToString(),
+							Attribute = reader["Attribute"].ToString(),
+							Sequence = (int)reader["Sequence"],
+							EntityDetail = GetEntityDetail(reader["Entity"].ToString(), reader["Attribute"].ToString())
+						};
+					}
+				}	
+			}
+		}
+	}
+
+	static IEnumerable<Sql> GetAllSqls()
+	{
+		string commandText = 
+			@"SELECT"+
+			" s.[Entity],"+
+			" s.[Query],"+
+			" s.[Type],"+
+			" s.[Statement],"+
+			" s.[Parameters],"+
+			" s.[Result],"+
+			" s.[ResultType],"+
+			" e.[Type] as EntityType"+
+			" FROM [Foundation].[Sql] s"+
+			" INNER JOIN [Foundation].[Entity] e ON s.[Entity] = e.[Name]";
+
+		using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
+		{
+			connection.Open();
+			using(SqlCommand command = new SqlCommand(commandText, connection))
+			{
+				using(SqlDataReader reader = command.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						yield return new Sql {
+							Entity = reader["Entity"].ToString(),
+							Query = reader["Query"].ToString(),
+							Type = reader["Type"].ToString(),
+							Statement = reader["Statement"].ToString(),
+							Parameters = reader["Parameters"].ToString(),
+							Result = reader["Result"].ToString(),
+							ResultType = reader["ResultType"].ToString(),
+							EntityType = reader["EntityType"].ToString()
+						};
+					}
+				}	
+			}
+		}
+	}
 
 	static IEnumerable<EntityDetail> GetAllEntityDetails()
 	{
@@ -67,12 +281,25 @@ static class Data
 		}
 	}
 
-	static DataType GetDataType(string datatype)
+	internal static DataType GetDataType(string datatype)
 	{
 		var result = (
 			from type in Data.AllDataTypes
 			where type.Name == datatype
 			select type
+			).SingleOrDefault();
+
+		if (result == null) System.Diagnostics.Debugger.Break();
+	
+		return result;
+	}
+
+	internal static EntityDetail GetEntityDetail(string entity, string attribute) 
+	{
+		var result = (
+			from detail in Data.AllEntityDetails
+			where detail.Entity == entity && detail.Attribute == attribute
+			select detail
 			).SingleOrDefault();
 
 		if (result == null) System.Diagnostics.Debugger.Break();
@@ -160,216 +387,77 @@ static class Data
 
 public IEnumerable<Sql> GetSqls(string entity)
 {
-    string commandText = 
-        @"SELECT"+
-        " s.[Entity],"+
-        " s.[Query],"+
-        " s.[Type],"+
-        " s.[Statement],"+
-        " s.[Parameters],"+
-        " s.[Result],"+
-        " s.[ResultType],"+
-        " e.[Type] as EntityType"+
-        " FROM [Foundation].[Sql] s"+
-        " INNER JOIN [Foundation].[Entity] e ON s.[Entity] = e.[Name]" +
-        " WHERE s.[Entity] = @Entity";
-	using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
-	{
-		connection.Open();
-		using(SqlCommand command = new SqlCommand(commandText, connection))
-		{
-			command.Parameters.Add(new SqlParameter("Entity", entity));
-			using(SqlDataReader reader = command.ExecuteReader())
-			{
-				while (reader.Read())
-                {
-					yield return new Sql {
-						Entity = reader["Entity"].ToString(),
-						Query = reader["Query"].ToString(),
-						Type = reader["Type"].ToString(),
-						Statement = reader["Statement"].ToString(),
-						Parameters = reader["Parameters"].ToString(),
-						Result = reader["Result"].ToString(),
-						ResultType = reader["ResultType"].ToString(),
-						EntityType = reader["EntityType"].ToString()
-					};
-                }
-			}	
-		}
-	}
+	var result = 
+		from sql in Data.AllSqls
+		where sql.Entity == entity
+		select sql;
+
+	if (!result.Any()) System.Diagnostics.Debugger.Break();
+	
+	return result;
 }
 
 public IEnumerable<IndexDetail> GetIndexDetails(string index)
 {
-	string commandText = 
-		@"SELECT " +
-		"[Index], " +
-		"Entity, " +
-		"Attribute, " +
-		"Sequence " +
-		"FROM Foundation.IndexDetail " +
-		"WHERE [Index] = @index " +
-		"ORDER BY Sequence";
+	var result = 
+		from indexDetail in Data.AllIndexDetails
+		where indexDetail.Index == index
+		orderby indexDetail.Sequence
+		select indexDetail;
 
-	using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
-	{
-		connection.Open();
-		using(SqlCommand command = new SqlCommand(commandText, connection))
-		{
-			command.Parameters.Add(new SqlParameter("Index", index));
-			using(SqlDataReader reader = command.ExecuteReader())
-			{
-				while (reader.Read())
-                {
-					yield return new IndexDetail {
-						Index = reader["Index"].ToString(),
-						Entity = reader["Entity"].ToString(),
-						Attribute = reader["Attribute"].ToString(),
-						Sequence = (int)reader["Sequence"],
-						EntityDetail = GetEntityDetail(reader["Entity"].ToString(), reader["Attribute"].ToString())
-					};
-                }
-			}	
-		}
-	}
+	if (!result.Any()) System.Diagnostics.Debugger.Break();
+	
+	return result;
 }
 
 public IEnumerable<Index> GetIndexes(string entity)
 {
-	string commandText = 
-		@"SELECT " +
-		"i.[Code], " +
-		"i.[Entity], " +
-		"i.[Type] " +
-		"FROM [Foundation].[Index] i " +
-		"INNER JOIN [Foundation].[Entity] e ON i.[Entity] = e.[Name] " +
-		"WHERE i.[Entity] = @Entity";
+	var result = 
+		from index in Data.AllIndexes
+		where index.Entity == entity
+		select index;
 
-	using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
-	{
-		connection.Open();
-		using(SqlCommand command = new SqlCommand(commandText, connection))
-		{
-			command.Parameters.Add(new SqlParameter("Entity", entity));
-			using(SqlDataReader reader = command.ExecuteReader())
-			{
-				while (reader.Read())
-                {
-					yield return new Index {
-						Code = reader["Code"].ToString(),
-						Entity = reader["Entity"].ToString(),
-						Type = reader["Type"].ToString()
-					};
-                }
-			}	
-		}
-	}
+	if (!result.Any()) System.Diagnostics.Debugger.Break();
+	
+	return result;
 }
-
 
 public IEnumerable<StatisticDetail> GetStatisticDetails(string statistic)
 {
-	string commandText = 
-		@"SELECT " +
-		"[Statistic], " +
-		"Entity, " +
-		"Attribute, " +
-		"Sequence " +
-		"FROM Foundation.StatisticDetail " +
-		"WHERE [Statistic] = @Statistic " +
-		"ORDER BY Sequence";
+	var result = 
+		from statisticDetail in Data.AllStatisticDetails
+		where statisticDetail.Statistic == statistic
+		orderby statisticDetail.Sequence
+		select statisticDetail;
 
-	using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
-	{
-		connection.Open();
-		using(SqlCommand command = new SqlCommand(commandText, connection))
-		{
-			command.Parameters.Add(new SqlParameter("Statistic", statistic));
-			using(SqlDataReader reader = command.ExecuteReader())
-			{
-				while (reader.Read())
-                {
-					yield return new StatisticDetail {
-						Statistic = reader["Statistic"].ToString(),
-						Entity = reader["Entity"].ToString(),
-						Attribute = reader["Attribute"].ToString(),
-						Sequence = (int)reader["Sequence"],
-						EntityDetail = GetEntityDetail(reader["Entity"].ToString(), reader["Attribute"].ToString())
-					};
-                }
-			}	
-		}
-	}
+	if (!result.Any()) System.Diagnostics.Debugger.Break();
+	
+	return result;
 }
 
 public IEnumerable<Statistic> GetStatistics(string entity)
 {
-	string commandText = 
-		@"SELECT " +
-		"i.[Code], " +
-		"i.[Entity] " +
-		"FROM [Foundation].[Statistic] i " +
-		"INNER JOIN [Foundation].[Entity] e ON i.[Entity] = e.[Name] " +
-		"WHERE i.[Entity] = @Entity";
+	var result = 
+		from statistic in Data.AllStatistics
+		where statistic.Entity == entity
+		select statistic;
 
-	using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
-	{
-		connection.Open();
-		using(SqlCommand command = new SqlCommand(commandText, connection))
-		{
-			command.Parameters.Add(new SqlParameter("Entity", entity));
-			using(SqlDataReader reader = command.ExecuteReader())
-			{
-				while (reader.Read())
-                {
-					yield return new Statistic {
-						Code = reader["Code"].ToString(),
-						Entity = reader["Entity"].ToString()
-					};
-                }
-			}	
-		}
-	}
+	if (!result.Any()) System.Diagnostics.Debugger.Break();
+	
+	return result;
 }
 
 public IEnumerable<ViewJoin> GetViewJoins(string view)
 {
-	string commandText = 
-		@"SELECT " +
-		"[View], " +
-		"LeftEntity, " +
-		"LeftAlias, " +
-		"RightEntity, " +
-		"RightAlias, " +
-		"Filter, " +
-		"Sequence " +
-		"FROM [Foundation].ViewJoin " +
-		"WHERE [View] = @View " +
-		"ORDER BY Sequence";
+	var result = 
+		from viewJoin in Data.AllViewJoins
+		where viewJoin.View == view
+		orderby viewJoin.Sequence
+		select viewJoin;
 
-	using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
-	{
-		connection.Open();
-		using(SqlCommand command = new SqlCommand(commandText, connection))
-		{
-			command.Parameters.Add(new SqlParameter("View", view));
-			using(SqlDataReader reader = command.ExecuteReader())
-			{
-				while (reader.Read())
-                {
-					yield return new ViewJoin {
-						View = reader["View"].ToString(),
-						Sequence = (int)reader["Sequence"],
-						LeftEntity = reader["LeftEntity"].ToString(),
-						LeftAlias = reader["LeftAlias"].ToString(),
-						RightEntity = reader["RightEntity"].ToString(),
-						RightAlias = reader["RightAlias"].ToString(),
-						Filter = reader["Filter"].ToString()
-					};
-                }
-			}	
-		}
-	}
+	if (!result.Any()) System.Diagnostics.Debugger.Break();
+	
+	return result;
 }
 
 public IEnumerable<ViewDetail> GetViewDetails(string view)
@@ -379,7 +467,7 @@ public IEnumerable<ViewDetail> GetViewDetails(string view)
 		"[View], " +
 		"Entity, " +
 		"Alias, " +
-		"Attribute, " +
+		"Attribute, " +-
 		"Name, " +
 		"Sequence " +
 		"FROM Foundation.ViewDetail " +
@@ -403,7 +491,7 @@ public IEnumerable<ViewDetail> GetViewDetails(string view)
 						Alias = reader["Alias"].ToString(),
 						Attribute = reader["Attribute"].ToString(),
 						Name = reader["Name"].ToString(),
-						EntityDetail = GetEntityDetail(reader["Entity"].ToString(), reader["Attribute"].ToString())
+						EntityDetail = Data.GetEntityDetail(reader["Entity"].ToString(), reader["Attribute"].ToString())
 					};
                 }
 			}	
@@ -463,7 +551,7 @@ public IEnumerable<DataType> GetDataTypes()
 			{
 				while (reader.Read())
                 {
-					yield return GetDataType(reader["Name"].ToString());
+					yield return Data.GetDataType(reader["Name"].ToString());
                 }
 			}	
 		}
@@ -488,24 +576,11 @@ public IEnumerable<DataType> GetDotNetDataTypes(string dotNetTypeName)
 			{
 				while (reader.Read())
                 {
-					yield return GetDataType(reader["Name"].ToString());
+					yield return Data.GetDataType(reader["Name"].ToString());
                 }
 			}	
 		}
 	}
-}
-
-private DataType GetDataType(string datatype)
-{
-	var result = (
-		from type in Data.AllDataTypes
-		where type.Name == datatype
-		select type
-		).SingleOrDefault();
-
-	if (result == null) System.Diagnostics.Debugger.Break();
-	
-	return result;
 }
 
 public Entity GetEntity(string name) 
@@ -529,19 +604,6 @@ public IEnumerable<Entity> GetEntities(string type)
 		select entity;
 
 	if (!result.Any()) System.Diagnostics.Debugger.Break();
-	
-	return result;
-}
-
-private EntityDetail GetEntityDetail(string entity, string attribute) 
-{
-	var result = (
-		from detail in Data.AllEntityDetails
-		where detail.Entity == entity && detail.Attribute == attribute
-		select detail
-		).SingleOrDefault();
-
-	if (result == null) System.Diagnostics.Debugger.Break();
 	
 	return result;
 }
