@@ -8,14 +8,9 @@
 //------------------------------------------------------------------------------
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Qujck.Pas.Core.Enumerations;
