@@ -21,8 +21,14 @@ static class Data
 		//AllStatisticDetails = GetAllStatisticDetails().ToList();
 		//AllStatistics = GetAllStatistics().ToList();
 		AllViewJoins = GetAllViewJoins().ToList();
+		AllViewDetails = GetAllViewDetails().ToList();
+		AllViews = GetAllViews().ToList();
+		AllRelationships = GetAllRelationships().ToList();
 	}
 	
+	static internal IEnumerable<Relationship> AllRelationships { get; private set; }
+	static internal IEnumerable<View> AllViews { get; private set; }
+	static internal IEnumerable<ViewDetail> AllViewDetails { get; private set; }
 	static internal IEnumerable<ViewJoin> AllViewJoins { get; private set; }
 	static internal IEnumerable<StatisticDetail> AllStatisticDetails { get; private set; }
 	static internal IEnumerable<Statistic> AllStatistics { get; private set; }
@@ -32,6 +38,115 @@ static class Data
 	static internal IEnumerable<Entity> AllEntities { get; private set; }
 	static internal IEnumerable<DataType> AllDataTypes { get; private set; }
 	static internal IEnumerable<Index> AllIndexes { get; private set; }
+
+	static IEnumerable<Relationship> GetAllRelationships()
+	{
+		string commandText = 
+			@"SELECT " + 
+			"r.PKEntity, " + 
+			"r.PKMultiplicity, " +
+			"r.FKEntity, " +
+			"r.FKMultiplicity, " +
+			"r.type, " +
+			"r.cascadeDelete, " +
+			"r.sequence " +
+			"FROM [Foundation].Relationship r ";
+
+		using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
+		{
+			connection.Open();
+			using(SqlCommand command = new SqlCommand(commandText, connection))
+			{
+				using(SqlDataReader reader = command.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						yield return new Relationship
+						{
+							PKEntity = reader["PKEntity"].ToString(),
+							PKMultiplicity = reader["PKMultiplicity"].ToString().ToCharArray()[0],
+							FKEntity = reader["FKEntity"].ToString(),
+							FKMultiplicity = reader["FKMultiplicity"].ToString().ToCharArray()[0],
+							Type = reader["type"].ToString(),
+							CascadeDelete = reader["CascadeDelete"] as string,
+							Sequence = reader.GetInt32(reader.GetOrdinal("Sequence"))
+						};
+					}
+				}
+			}
+		}
+	}
+
+	static IEnumerable<View> GetAllViews()
+	{
+		string commandText = 
+			@"SELECT " +
+			"v.[Action], " +
+			"v.[Name], " +
+			"v.[Entity], " +
+			"v.[Type], " +
+			"e.[Type] as EntityType " +
+			"FROM Foundation.[View] v " +
+			"INNER JOIN [Foundation].[Entity] e ON v.[Entity] = e.[Name] ";
+
+		using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
+		{
+			connection.Open();
+			using(SqlCommand command = new SqlCommand(commandText, connection))
+			{
+				using(SqlDataReader reader = command.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						yield return new View {
+							Action = reader["Action"].ToString(),
+							Name = reader["Name"].ToString(),
+							Entity = reader["Entity"].ToString(),
+							Type = reader["Type"].ToString(),
+							EntityType = reader["EntityType"].ToString()
+						};
+					}
+				}	
+			}
+		}
+	}
+
+	static IEnumerable<ViewDetail> GetAllViewDetails()
+	{
+		string commandText = 
+			@"SELECT " +
+			"[View], " +
+			"Entity, " +
+			"Alias, " +
+			"Attribute, " +
+			"Name, " +
+			"Sequence " +
+			"FROM Foundation.ViewDetail " +
+			"ORDER BY [View], Sequence";
+
+		using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
+		{
+			connection.Open();
+			using(SqlCommand command = new SqlCommand(commandText, connection))
+			{
+				using(SqlDataReader reader = command.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						yield return new ViewDetail {
+							View = reader["View"].ToString(),
+							Sequence = (int)reader["Sequence"],
+							Entity = reader["Entity"].ToString(),
+							Alias = reader["Alias"].ToString(),
+							Attribute = reader["Attribute"].ToString(),
+							Name = reader["Name"].ToString(),
+							EntityDetail = Data.GetEntityDetail(reader["Entity"].ToString(), reader["Attribute"].ToString())
+						};
+					}
+				}	
+			}
+		}
+	}
 
 	static IEnumerable<ViewJoin> GetAllViewJoins()
 	{
@@ -45,7 +160,7 @@ static class Data
 			"Filter, " +
 			"Sequence " +
 			"FROM [Foundation].ViewJoin " +
-			"ORDER BY Sequence";
+			"ORDER BY [View], Sequence";
 
 		using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
 		{
@@ -108,7 +223,7 @@ static class Data
 			"Attribute, " +
 			"Sequence " +
 			"FROM Foundation.StatisticDetail " +
-			"ORDER BY Sequence";
+			"ORDER BY [Statistic], Sequence";
 
 		using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
 		{
@@ -171,7 +286,7 @@ static class Data
 			"Attribute, " +
 			"Sequence " +
 			"FROM Foundation.IndexDetail " +
-			"ORDER BY Sequence";
+			"ORDER BY [Index], Sequence";
 
 		using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
 		{
@@ -462,125 +577,32 @@ public IEnumerable<ViewJoin> GetViewJoins(string view)
 
 public IEnumerable<ViewDetail> GetViewDetails(string view)
 {
-	string commandText = 
-		@"SELECT " +
-		"[View], " +
-		"Entity, " +
-		"Alias, " +
-		"Attribute, " +-
-		"Name, " +
-		"Sequence " +
-		"FROM Foundation.ViewDetail " +
-		"WHERE [View] = @View " +
-		"ORDER BY Sequence";
+	var result = 
+		from viewDetail in Data.AllViewDetails
+		where viewDetail.View == view
+		orderby viewDetail.Sequence
+		select viewDetail;
 
-	using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
-	{
-		connection.Open();
-		using(SqlCommand command = new SqlCommand(commandText, connection))
-		{
-			command.Parameters.Add(new SqlParameter("View", view));
-			using(SqlDataReader reader = command.ExecuteReader())
-			{
-				while (reader.Read())
-                {
-					yield return new ViewDetail {
-						View = reader["View"].ToString(),
-						Sequence = (int)reader["Sequence"],
-						Entity = reader["Entity"].ToString(),
-						Alias = reader["Alias"].ToString(),
-						Attribute = reader["Attribute"].ToString(),
-						Name = reader["Name"].ToString(),
-						EntityDetail = Data.GetEntityDetail(reader["Entity"].ToString(), reader["Attribute"].ToString())
-					};
-                }
-			}	
-		}
-	}
+	if (!result.Any()) System.Diagnostics.Debugger.Break();
+	
+	return result;
 }
 
 public IEnumerable<View> GetViews(string type)
 {
-	string commandText = 
-		@"SELECT " +
-		"v.[Action], " +
-		"v.[Name], " +
-		"v.[Entity], " +
-		"v.[Type], " +
-		"e.[Type] as EntityType " +
-		"FROM Foundation.[View] v " +
-		"INNER JOIN [Foundation].[Entity] e ON v.[Entity] = e.[Name] " +
-		"WHERE v.[Type] = @Type";
+	var result = 
+		from view in Data.AllViews
+		where view.Type == type
+		select view;
 
-	using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
-	{
-		connection.Open();
-		using(SqlCommand command = new SqlCommand(commandText, connection))
-		{
-			command.Parameters.Add(new SqlParameter("Type", type));
-			using(SqlDataReader reader = command.ExecuteReader())
-			{
-				while (reader.Read())
-                {
-					yield return new View {
-						Action = reader["Action"].ToString(),
-						Name = reader["Name"].ToString(),
-						Entity = reader["Entity"].ToString(),
-						Type = reader["Type"].ToString(),
-						EntityType = reader["EntityType"].ToString()
-					};
-                }
-			}	
-		}
-	}
+	if (!result.Any()) System.Diagnostics.Debugger.Break();
+	
+	return result;
 }
 
 public IEnumerable<DataType> GetDataTypes()
 {
-	string commandText = 
-		@"SELECT " +
-		"Name " +
-		"FROM [Foundation].[DataType] ";
-
-	using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
-	{
-		connection.Open();
-		using(SqlCommand command = new SqlCommand(commandText, connection))
-		{
-			using(SqlDataReader reader = command.ExecuteReader())
-			{
-				while (reader.Read())
-                {
-					yield return Data.GetDataType(reader["Name"].ToString());
-                }
-			}	
-		}
-	}
-}
-
-public IEnumerable<DataType> GetDotNetDataTypes(string dotNetTypeName)
-{
-	string commandText = 
-		@"SELECT " +
-		"Name " +
-		"FROM [Foundation].[DataType] " +
-		"WHERE dotNet = @dotNetType";
-
-	using(SqlConnection connection = new SqlConnection(Private.ConnectionString))        
-	{
-		connection.Open();
-		using(SqlCommand command = new SqlCommand(commandText, connection))
-		{
-			command.Parameters.Add(new SqlParameter("dotNetType", dotNetTypeName));
-			using(SqlDataReader reader = command.ExecuteReader())
-			{
-				while (reader.Read())
-                {
-					yield return Data.GetDataType(reader["Name"].ToString());
-                }
-			}	
-		}
-	}
+	return Data.AllDataTypes;
 }
 
 public Entity GetEntity(string name) 
@@ -623,62 +645,36 @@ public IEnumerable<EntityDetail> GetEntityDetails(string entity)
 
 public IEnumerable<Relationship> GetEntityRelationships(string PKEntity, string FKEntity)
 {
-	string query = 
-		@"SELECT " + 
-		"r.PKEntity, " + 
-		"r.PKMultiplicity, " +
-		"r.FKEntity, " +
-		"r.FKMultiplicity, " +
-		"r.type, " +
-		"r.cascadeDelete, " +
-		"r.sequence " +
-		"FROM [Foundation].Relationship r " +
-		"INNER JOIN [Foundation].Entity e1 on r.PKEntity = e1.Name AND e1.[Type] IN('Pas', 'Interface', 'Standing', 'Security') AND r.type = 'Navigation' " +
-		"INNER JOIN [Foundation].Entity e2 on r.FKEntity = e2.Name AND e2.[Type] IN('Pas', 'Interface', 'Standing', 'Security') AND r.type = 'Navigation' ";
-	string order = @" ORDER BY r.sequence";
+	var result = 
+		from r in Data.AllRelationships
+		where r.PKEntity == PKEntity || r.FKEntity == FKEntity
+		where r.Type == "Navigation"
+		join e1 in Data.AllEntities on r.PKEntity equals e1.Name
+		where new[] {"Policy", "Interface", "Standing", "Security"}.Contains(e1.Type)
+		join e2 in Data.AllEntities on r.PKEntity equals e2.Name
+		where new[] {"Policy", "Interface", "Standing", "Security"}.Contains(e2.Type)
+		orderby r.Sequence
+		select r;
 
-	foreach(SqlDataReader reader in RelationshipReader(query, PKEntity, FKEntity, order))
-    {
-		yield return new Relationship
-        {
-			PKEntity = reader["PKEntity"].ToString(),
-			PKMultiplicity = reader["PKMultiplicity"].ToString().ToCharArray()[0],
-			FKEntity = reader["FKEntity"].ToString(),
-			FKMultiplicity = reader["FKMultiplicity"].ToString().ToCharArray()[0],
-			Type = reader["type"].ToString(),
-			CascadeDelete = reader["CascadeDelete"] as string,
-			Sequence = reader.GetInt32(reader.GetOrdinal("Sequence"))
-        };
-    }
+	if (!result.Any()) System.Diagnostics.Debugger.Break();
+	
+	return result;
 }
 
 public IEnumerable<Relationship> GetInstructionRelationships(string instruction)
 {
-	string query = 
-		@"SELECT " + 
-		"r.PKEntity, " + 
-		"r.PKMultiplicity, " +
-		"r.FKEntity, " +
-		"r.FKMultiplicity, " +
-		"r.type, " +
-		"r.cascadeDelete, " +
-		"r.sequence " +
-		"FROM [Foundation].Relationship r " +
-		"INNER JOIN [Foundation].Entity e1 on r.PKEntity = e1.Name AND e1.[Type] = 'Instruction' AND r.type = 'Navigation'";
-	string order = @" ORDER BY r.sequence";
+	var result = 
+		from r in Data.AllRelationships
+		where r.PKEntity == instruction || r.FKEntity == instruction
+		where r.Type == "Navigation"
+		join e1 in Data.AllEntities on r.PKEntity equals e1.Name
+		where e1.Type == "Instruction"
+		orderby r.Sequence
+		select r;
 
-	foreach(SqlDataReader reader in RelationshipReader(query, instruction, instruction, order))
-    {
-		yield return new Relationship
-        {
-			PKEntity = reader["PKEntity"].ToString(),
-			PKMultiplicity = reader["PKMultiplicity"].ToString().ToCharArray()[0],
-			FKEntity = reader["FKEntity"].ToString(),
-			FKMultiplicity = reader["FKMultiplicity"].ToString().ToCharArray()[0],
-			Type = reader["type"].ToString(),
-			CascadeDelete = reader["CascadeDelete"] as string
-        };
-    }
+	if (!result.Any()) System.Diagnostics.Debugger.Break();
+	
+	return result;
 }
 
 public IEnumerable<Relationship> GetCrossReferences(string entity)

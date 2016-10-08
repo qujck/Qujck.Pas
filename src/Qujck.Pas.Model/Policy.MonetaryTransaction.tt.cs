@@ -350,6 +350,75 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool ContractIsLoaded { get; private set; }
+        internal Func<Contract> ContractQuery { private get; set; }
+        public Contract Contract
+        {
+            get
+            {
+                if (this.ContractQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.ContractQuery();
+                    if (!this.ContractIsLoaded)
+                    {
+                        this.ContractIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool FinancialInstitutionAccountIsLoaded { get; private set; }
+        internal Func<FinancialInstitutionAccount> FinancialInstitutionAccountQuery { private get; set; }
+        public FinancialInstitutionAccount FinancialInstitutionAccount
+        {
+            get
+            {
+                if (this.FinancialInstitutionAccountQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.FinancialInstitutionAccountQuery();
+                    if (!this.FinancialInstitutionAccountIsLoaded)
+                    {
+                        this.FinancialInstitutionAccountIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool FundUnitTransactionsAreLoaded { get; private set; }
+        internal Func<IEnumerable<FundUnitTransaction>> FundUnitTransactionsQuery { private get; set; }
+        public IEnumerable<FundUnitTransaction> FundUnitTransactions
+        {
+            get
+            {
+                if (this.FundUnitTransactionsQuery == null)
+                {
+                    return Enumerable.Empty<FundUnitTransaction>();
+                }
+                else
+                {
+                    var result = this.FundUnitTransactionsQuery();
+                    if (!this.FundUnitTransactionsAreLoaded)
+                    {
+                        this.FundUnitTransactionsAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 

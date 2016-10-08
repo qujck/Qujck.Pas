@@ -147,6 +147,29 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool UnitAdjustmentHeaderIsLoaded { get; private set; }
+        internal Func<UnitAdjustmentHeader> UnitAdjustmentHeaderQuery { private get; set; }
+        public UnitAdjustmentHeader UnitAdjustmentHeader
+        {
+            get
+            {
+                if (this.UnitAdjustmentHeaderQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.UnitAdjustmentHeaderQuery();
+                    if (!this.UnitAdjustmentHeaderIsLoaded)
+                    {
+                        this.UnitAdjustmentHeaderIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 

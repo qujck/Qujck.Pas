@@ -96,29 +96,6 @@ namespace Qujck.Pas.Model.Interface
             }
         }
 
-        public bool FundUnitTransactionBuyContentsAreLoaded { get; private set; }
-        internal Func<IEnumerable<FundUnitTransactionBuyContent>> FundUnitTransactionBuyContentsQuery { private get; set; }
-        public IEnumerable<FundUnitTransactionBuyContent> FundUnitTransactionBuyContents
-        {
-            get
-            {
-                if (this.FundUnitTransactionBuyContentsQuery == null)
-                {
-                    return Enumerable.Empty<FundUnitTransactionBuyContent>();
-                }
-                else
-                {
-                    var result = this.FundUnitTransactionBuyContentsQuery();
-                    if (!this.FundUnitTransactionBuyContentsAreLoaded)
-                    {
-                        this.FundUnitTransactionBuyContentsAreLoaded = result.Count() > 0;
-                    }
-
-                    return result;
-                }
-            }
-        }
-
         public bool ContractContentIsLoaded { get; private set; }
         internal Func<ContractContent> ContractContentQuery { private get; set; }
         public ContractContent ContractContent
@@ -135,6 +112,29 @@ namespace Qujck.Pas.Model.Interface
                     if (!this.ContractContentIsLoaded)
                     {
                         this.ContractContentIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool FundUnitTransactionBuyContentsAreLoaded { get; private set; }
+        internal Func<IEnumerable<FundUnitTransactionBuyContent>> FundUnitTransactionBuyContentsQuery { private get; set; }
+        public IEnumerable<FundUnitTransactionBuyContent> FundUnitTransactionBuyContents
+        {
+            get
+            {
+                if (this.FundUnitTransactionBuyContentsQuery == null)
+                {
+                    return Enumerable.Empty<FundUnitTransactionBuyContent>();
+                }
+                else
+                {
+                    var result = this.FundUnitTransactionBuyContentsQuery();
+                    if (!this.FundUnitTransactionBuyContentsAreLoaded)
+                    {
+                        this.FundUnitTransactionBuyContentsAreLoaded = result.Count() > 0;
                     }
 
                     return result;
@@ -188,22 +188,22 @@ namespace Qujck.Pas.Model.Interface
             }
         }
 
-        public bool LetterWrapperIsLoaded { get; private set; }
-        internal Func<LetterWrapper> LetterWrapperQuery { private get; set; }
-        public LetterWrapper LetterWrapper
+        public bool AddressChangeContentIsLoaded { get; private set; }
+        internal Func<AddressChangeContent> AddressChangeContentQuery { private get; set; }
+        public AddressChangeContent AddressChangeContent
         {
             get
             {
-                if (this.LetterWrapperQuery == null)
+                if (this.AddressChangeContentQuery == null)
                 {
                     return null;
                 }
                 else
                 {
-                    var result = this.LetterWrapperQuery();
-                    if (!this.LetterWrapperIsLoaded)
+                    var result = this.AddressChangeContentQuery();
+                    if (!this.AddressChangeContentIsLoaded)
                     {
-                        this.LetterWrapperIsLoaded = result != null;
+                        this.AddressChangeContentIsLoaded = result != null;
                     }
 
                     return result;
@@ -234,22 +234,22 @@ namespace Qujck.Pas.Model.Interface
             }
         }
 
-        public bool AddressChangeContentIsLoaded { get; private set; }
-        internal Func<AddressChangeContent> AddressChangeContentQuery { private get; set; }
-        public AddressChangeContent AddressChangeContent
+        public bool LetterWrapperIsLoaded { get; private set; }
+        internal Func<LetterWrapper> LetterWrapperQuery { private get; set; }
+        public LetterWrapper LetterWrapper
         {
             get
             {
-                if (this.AddressChangeContentQuery == null)
+                if (this.LetterWrapperQuery == null)
                 {
                     return null;
                 }
                 else
                 {
-                    var result = this.AddressChangeContentQuery();
-                    if (!this.AddressChangeContentIsLoaded)
+                    var result = this.LetterWrapperQuery();
+                    if (!this.LetterWrapperIsLoaded)
                     {
-                        this.AddressChangeContentIsLoaded = result != null;
+                        this.LetterWrapperIsLoaded = result != null;
                     }
 
                     return result;
@@ -303,29 +303,6 @@ namespace Qujck.Pas.Model.Interface
             }
         }
 
-        public bool NewAddressContentIsLoaded { get; private set; }
-        internal Func<NewAddressContent> NewAddressContentQuery { private get; set; }
-        public NewAddressContent NewAddressContent
-        {
-            get
-            {
-                if (this.NewAddressContentQuery == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    var result = this.NewAddressContentQuery();
-                    if (!this.NewAddressContentIsLoaded)
-                    {
-                        this.NewAddressContentIsLoaded = result != null;
-                    }
-
-                    return result;
-                }
-            }
-        }
-
         public bool MonetaryTransactionContentsAreLoaded { get; private set; }
         internal Func<IEnumerable<MonetaryTransactionContent>> MonetaryTransactionContentsQuery { private get; set; }
         public IEnumerable<MonetaryTransactionContent> MonetaryTransactionContents
@@ -342,6 +319,29 @@ namespace Qujck.Pas.Model.Interface
                     if (!this.MonetaryTransactionContentsAreLoaded)
                     {
                         this.MonetaryTransactionContentsAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool NewAddressContentIsLoaded { get; private set; }
+        internal Func<NewAddressContent> NewAddressContentQuery { private get; set; }
+        public NewAddressContent NewAddressContent
+        {
+            get
+            {
+                if (this.NewAddressContentQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.NewAddressContentQuery();
+                    if (!this.NewAddressContentIsLoaded)
+                    {
+                        this.NewAddressContentIsLoaded = result != null;
                     }
 
                     return result;

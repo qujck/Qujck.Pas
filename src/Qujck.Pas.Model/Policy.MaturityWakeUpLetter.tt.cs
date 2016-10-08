@@ -172,6 +172,29 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool MaturityIsLoaded { get; private set; }
+        internal Func<Maturity> MaturityQuery { private get; set; }
+        public Maturity Maturity
+        {
+            get
+            {
+                if (this.MaturityQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.MaturityQuery();
+                    if (!this.MaturityIsLoaded)
+                    {
+                        this.MaturityIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 

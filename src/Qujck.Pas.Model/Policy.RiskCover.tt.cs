@@ -249,6 +249,75 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool RiskBenefitIsLoaded { get; private set; }
+        internal Func<RiskBenefit> RiskBenefitQuery { private get; set; }
+        public RiskBenefit RiskBenefit
+        {
+            get
+            {
+                if (this.RiskBenefitQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.RiskBenefitQuery();
+                    if (!this.RiskBenefitIsLoaded)
+                    {
+                        this.RiskBenefitIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool Party_RiskCoversAreLoaded { get; private set; }
+        internal Func<IEnumerable<Party_RiskCover>> Party_RiskCoversQuery { private get; set; }
+        public IEnumerable<Party_RiskCover> Party_RiskCovers
+        {
+            get
+            {
+                if (this.Party_RiskCoversQuery == null)
+                {
+                    return Enumerable.Empty<Party_RiskCover>();
+                }
+                else
+                {
+                    var result = this.Party_RiskCoversQuery();
+                    if (!this.Party_RiskCoversAreLoaded)
+                    {
+                        this.Party_RiskCoversAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool RiskClaimsAreLoaded { get; private set; }
+        internal Func<IEnumerable<RiskClaim>> RiskClaimsQuery { private get; set; }
+        public IEnumerable<RiskClaim> RiskClaims
+        {
+            get
+            {
+                if (this.RiskClaimsQuery == null)
+                {
+                    return Enumerable.Empty<RiskClaim>();
+                }
+                else
+                {
+                    var result = this.RiskClaimsQuery();
+                    if (!this.RiskClaimsAreLoaded)
+                    {
+                        this.RiskClaimsAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 

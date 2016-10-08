@@ -121,6 +121,75 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool FundAllocationDetailsAreLoaded { get; private set; }
+        internal Func<IEnumerable<FundAllocationDetail>> FundAllocationDetailsQuery { private get; set; }
+        public IEnumerable<FundAllocationDetail> FundAllocationDetails
+        {
+            get
+            {
+                if (this.FundAllocationDetailsQuery == null)
+                {
+                    return Enumerable.Empty<FundAllocationDetail>();
+                }
+                else
+                {
+                    var result = this.FundAllocationDetailsQuery();
+                    if (!this.FundAllocationDetailsAreLoaded)
+                    {
+                        this.FundAllocationDetailsAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool InvestmentBenefitIsLoaded { get; private set; }
+        internal Func<InvestmentBenefit> InvestmentBenefitQuery { private get; set; }
+        public InvestmentBenefit InvestmentBenefit
+        {
+            get
+            {
+                if (this.InvestmentBenefitQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.InvestmentBenefitQuery();
+                    if (!this.InvestmentBenefitIsLoaded)
+                    {
+                        this.InvestmentBenefitIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool MoneyInIsLoaded { get; private set; }
+        internal Func<MoneyIn> MoneyInQuery { private get; set; }
+        public MoneyIn MoneyIn
+        {
+            get
+            {
+                if (this.MoneyInQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.MoneyInQuery();
+                    if (!this.MoneyInIsLoaded)
+                    {
+                        this.MoneyInIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 

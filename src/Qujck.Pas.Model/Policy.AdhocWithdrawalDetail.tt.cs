@@ -147,6 +147,29 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool AdhocWithdrawalHeaderIsLoaded { get; private set; }
+        internal Func<AdhocWithdrawalHeader> AdhocWithdrawalHeaderQuery { private get; set; }
+        public AdhocWithdrawalHeader AdhocWithdrawalHeader
+        {
+            get
+            {
+                if (this.AdhocWithdrawalHeaderQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.AdhocWithdrawalHeaderQuery();
+                    if (!this.AdhocWithdrawalHeaderIsLoaded)
+                    {
+                        this.AdhocWithdrawalHeaderIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 

@@ -172,6 +172,29 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool FundAllocationHeaderIsLoaded { get; private set; }
+        internal Func<FundAllocationHeader> FundAllocationHeaderQuery { private get; set; }
+        public FundAllocationHeader FundAllocationHeader
+        {
+            get
+            {
+                if (this.FundAllocationHeaderQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.FundAllocationHeaderQuery();
+                    if (!this.FundAllocationHeaderIsLoaded)
+                    {
+                        this.FundAllocationHeaderIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 

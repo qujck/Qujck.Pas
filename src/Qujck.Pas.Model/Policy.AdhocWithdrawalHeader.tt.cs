@@ -248,6 +248,52 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool AdhocWithdrawalDetailsAreLoaded { get; private set; }
+        internal Func<IEnumerable<AdhocWithdrawalDetail>> AdhocWithdrawalDetailsQuery { private get; set; }
+        public IEnumerable<AdhocWithdrawalDetail> AdhocWithdrawalDetails
+        {
+            get
+            {
+                if (this.AdhocWithdrawalDetailsQuery == null)
+                {
+                    return Enumerable.Empty<AdhocWithdrawalDetail>();
+                }
+                else
+                {
+                    var result = this.AdhocWithdrawalDetailsQuery();
+                    if (!this.AdhocWithdrawalDetailsAreLoaded)
+                    {
+                        this.AdhocWithdrawalDetailsAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool ContractIsLoaded { get; private set; }
+        internal Func<Contract> ContractQuery { private get; set; }
+        public Contract Contract
+        {
+            get
+            {
+                if (this.ContractQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.ContractQuery();
+                    if (!this.ContractIsLoaded)
+                    {
+                        this.ContractIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 

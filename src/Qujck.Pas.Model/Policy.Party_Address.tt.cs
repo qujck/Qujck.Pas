@@ -223,6 +223,52 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool AddressIsLoaded { get; private set; }
+        internal Func<Address> AddressQuery { private get; set; }
+        public Address Address
+        {
+            get
+            {
+                if (this.AddressQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.AddressQuery();
+                    if (!this.AddressIsLoaded)
+                    {
+                        this.AddressIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool PartyIsLoaded { get; private set; }
+        internal Func<Party> PartyQuery { private get; set; }
+        public Party Party
+        {
+            get
+            {
+                if (this.PartyQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.PartyQuery();
+                    if (!this.PartyIsLoaded)
+                    {
+                        this.PartyIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 

@@ -228,6 +228,29 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool Party_AddressesAreLoaded { get; private set; }
+        internal Func<IEnumerable<Party_Address>> Party_AddressesQuery { private get; set; }
+        public IEnumerable<Party_Address> Party_Addresses
+        {
+            get
+            {
+                if (this.Party_AddressesQuery == null)
+                {
+                    return Enumerable.Empty<Party_Address>();
+                }
+                else
+                {
+                    var result = this.Party_AddressesQuery();
+                    if (!this.Party_AddressesAreLoaded)
+                    {
+                        this.Party_AddressesAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 

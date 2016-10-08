@@ -202,6 +202,98 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool InvestmentBenefitsAreLoaded { get; private set; }
+        internal Func<IEnumerable<InvestmentBenefit>> InvestmentBenefitsQuery { private get; set; }
+        public IEnumerable<InvestmentBenefit> InvestmentBenefits
+        {
+            get
+            {
+                if (this.InvestmentBenefitsQuery == null)
+                {
+                    return Enumerable.Empty<InvestmentBenefit>();
+                }
+                else
+                {
+                    var result = this.InvestmentBenefitsQuery();
+                    if (!this.InvestmentBenefitsAreLoaded)
+                    {
+                        this.InvestmentBenefitsAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool MaturitiesAreLoaded { get; private set; }
+        internal Func<IEnumerable<Maturity>> MaturitiesQuery { private get; set; }
+        public IEnumerable<Maturity> Maturities
+        {
+            get
+            {
+                if (this.MaturitiesQuery == null)
+                {
+                    return Enumerable.Empty<Maturity>();
+                }
+                else
+                {
+                    var result = this.MaturitiesQuery();
+                    if (!this.MaturitiesAreLoaded)
+                    {
+                        this.MaturitiesAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool MonetaryTransactionsAreLoaded { get; private set; }
+        internal Func<IEnumerable<MonetaryTransaction>> MonetaryTransactionsQuery { private get; set; }
+        public IEnumerable<MonetaryTransaction> MonetaryTransactions
+        {
+            get
+            {
+                if (this.MonetaryTransactionsQuery == null)
+                {
+                    return Enumerable.Empty<MonetaryTransaction>();
+                }
+                else
+                {
+                    var result = this.MonetaryTransactionsQuery();
+                    if (!this.MonetaryTransactionsAreLoaded)
+                    {
+                        this.MonetaryTransactionsAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool MoneyInsAreLoaded { get; private set; }
+        internal Func<IEnumerable<MoneyIn>> MoneyInsQuery { private get; set; }
+        public IEnumerable<MoneyIn> MoneyIns
+        {
+            get
+            {
+                if (this.MoneyInsQuery == null)
+                {
+                    return Enumerable.Empty<MoneyIn>();
+                }
+                else
+                {
+                    var result = this.MoneyInsQuery();
+                    if (!this.MoneyInsAreLoaded)
+                    {
+                        this.MoneyInsAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 

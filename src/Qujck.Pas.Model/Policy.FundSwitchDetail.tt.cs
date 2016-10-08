@@ -172,6 +172,29 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool FundSwitchHeaderIsLoaded { get; private set; }
+        internal Func<FundSwitchHeader> FundSwitchHeaderQuery { private get; set; }
+        public FundSwitchHeader FundSwitchHeader
+        {
+            get
+            {
+                if (this.FundSwitchHeaderQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.FundSwitchHeaderQuery();
+                    if (!this.FundSwitchHeaderIsLoaded)
+                    {
+                        this.FundSwitchHeaderIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 

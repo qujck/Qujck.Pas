@@ -273,6 +273,75 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool ContractIsLoaded { get; private set; }
+        internal Func<Contract> ContractQuery { private get; set; }
+        public Contract Contract
+        {
+            get
+            {
+                if (this.ContractQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.ContractQuery();
+                    if (!this.ContractIsLoaded)
+                    {
+                        this.ContractIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool PartyIsLoaded { get; private set; }
+        internal Func<Party> PartyQuery { private get; set; }
+        public Party Party
+        {
+            get
+            {
+                if (this.PartyQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.PartyQuery();
+                    if (!this.PartyIsLoaded)
+                    {
+                        this.PartyIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool RiskCoverIsLoaded { get; private set; }
+        internal Func<RiskCover> RiskCoverQuery { private get; set; }
+        public RiskCover RiskCover
+        {
+            get
+            {
+                if (this.RiskCoverQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.RiskCoverQuery();
+                    if (!this.RiskCoverIsLoaded)
+                    {
+                        this.RiskCoverIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 

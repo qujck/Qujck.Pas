@@ -222,6 +222,29 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool MoneyInIsLoaded { get; private set; }
+        internal Func<MoneyIn> MoneyInQuery { private get; set; }
+        public MoneyIn MoneyIn
+        {
+            get
+            {
+                if (this.MoneyInQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.MoneyInQuery();
+                    if (!this.MoneyInIsLoaded)
+                    {
+                        this.MoneyInIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 

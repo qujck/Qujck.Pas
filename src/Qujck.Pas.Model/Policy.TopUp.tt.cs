@@ -146,6 +146,29 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool ContractIsLoaded { get; private set; }
+        internal Func<Contract> ContractQuery { private get; set; }
+        public Contract Contract
+        {
+            get
+            {
+                if (this.ContractQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.ContractQuery();
+                    if (!this.ContractIsLoaded)
+                    {
+                        this.ContractIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 

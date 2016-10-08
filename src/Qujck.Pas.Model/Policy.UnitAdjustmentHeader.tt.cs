@@ -122,6 +122,52 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool ContractIsLoaded { get; private set; }
+        internal Func<Contract> ContractQuery { private get; set; }
+        public Contract Contract
+        {
+            get
+            {
+                if (this.ContractQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.ContractQuery();
+                    if (!this.ContractIsLoaded)
+                    {
+                        this.ContractIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool UnitAdjustmentDetailsAreLoaded { get; private set; }
+        internal Func<IEnumerable<UnitAdjustmentDetail>> UnitAdjustmentDetailsQuery { private get; set; }
+        public IEnumerable<UnitAdjustmentDetail> UnitAdjustmentDetails
+        {
+            get
+            {
+                if (this.UnitAdjustmentDetailsQuery == null)
+                {
+                    return Enumerable.Empty<UnitAdjustmentDetail>();
+                }
+                else
+                {
+                    var result = this.UnitAdjustmentDetailsQuery();
+                    if (!this.UnitAdjustmentDetailsAreLoaded)
+                    {
+                        this.UnitAdjustmentDetailsAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 

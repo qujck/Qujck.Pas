@@ -817,6 +817,236 @@ namespace Qujck.Pas.Model.Policy
             }
         }
 
+        public bool EmailsAreLoaded { get; private set; }
+        internal Func<IEnumerable<Email>> EmailsQuery { private get; set; }
+        public IEnumerable<Email> Emails
+        {
+            get
+            {
+                if (this.EmailsQuery == null)
+                {
+                    return Enumerable.Empty<Email>();
+                }
+                else
+                {
+                    var result = this.EmailsQuery();
+                    if (!this.EmailsAreLoaded)
+                    {
+                        this.EmailsAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool ExternalUserIsLoaded { get; private set; }
+        internal Func<ExternalUser> ExternalUserQuery { private get; set; }
+        public ExternalUser ExternalUser
+        {
+            get
+            {
+                if (this.ExternalUserQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.ExternalUserQuery();
+                    if (!this.ExternalUserIsLoaded)
+                    {
+                        this.ExternalUserIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool NonMonetaryTransactionsAreLoaded { get; private set; }
+        internal Func<IEnumerable<NonMonetaryTransaction>> NonMonetaryTransactionsQuery { private get; set; }
+        public IEnumerable<NonMonetaryTransaction> NonMonetaryTransactions
+        {
+            get
+            {
+                if (this.NonMonetaryTransactionsQuery == null)
+                {
+                    return Enumerable.Empty<NonMonetaryTransaction>();
+                }
+                else
+                {
+                    var result = this.NonMonetaryTransactionsQuery();
+                    if (!this.NonMonetaryTransactionsAreLoaded)
+                    {
+                        this.NonMonetaryTransactionsAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool Party_AddressesAreLoaded { get; private set; }
+        internal Func<IEnumerable<Party_Address>> Party_AddressesQuery { private get; set; }
+        public IEnumerable<Party_Address> Party_Addresses
+        {
+            get
+            {
+                if (this.Party_AddressesQuery == null)
+                {
+                    return Enumerable.Empty<Party_Address>();
+                }
+                else
+                {
+                    var result = this.Party_AddressesQuery();
+                    if (!this.Party_AddressesAreLoaded)
+                    {
+                        this.Party_AddressesAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool Party_ContractsAreLoaded { get; private set; }
+        internal Func<IEnumerable<Party_Contract>> Party_ContractsQuery { private get; set; }
+        public IEnumerable<Party_Contract> Party_Contracts
+        {
+            get
+            {
+                if (this.Party_ContractsQuery == null)
+                {
+                    return Enumerable.Empty<Party_Contract>();
+                }
+                else
+                {
+                    var result = this.Party_ContractsQuery();
+                    if (!this.Party_ContractsAreLoaded)
+                    {
+                        this.Party_ContractsAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool Party_RiskCoversAreLoaded { get; private set; }
+        internal Func<IEnumerable<Party_RiskCover>> Party_RiskCoversQuery { private get; set; }
+        public IEnumerable<Party_RiskCover> Party_RiskCovers
+        {
+            get
+            {
+                if (this.Party_RiskCoversQuery == null)
+                {
+                    return Enumerable.Empty<Party_RiskCover>();
+                }
+                else
+                {
+                    var result = this.Party_RiskCoversQuery();
+                    if (!this.Party_RiskCoversAreLoaded)
+                    {
+                        this.Party_RiskCoversAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool PartyTransactionsAreLoaded { get; private set; }
+        internal Func<IEnumerable<PartyTransaction>> PartyTransactionsQuery { private get; set; }
+        public IEnumerable<PartyTransaction> PartyTransactions
+        {
+            get
+            {
+                if (this.PartyTransactionsQuery == null)
+                {
+                    return Enumerable.Empty<PartyTransaction>();
+                }
+                else
+                {
+                    var result = this.PartyTransactionsQuery();
+                    if (!this.PartyTransactionsAreLoaded)
+                    {
+                        this.PartyTransactionsAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool RiskClaimsAreLoaded { get; private set; }
+        internal Func<IEnumerable<RiskClaim>> RiskClaimsQuery { private get; set; }
+        public IEnumerable<RiskClaim> RiskClaims
+        {
+            get
+            {
+                if (this.RiskClaimsQuery == null)
+                {
+                    return Enumerable.Empty<RiskClaim>();
+                }
+                else
+                {
+                    var result = this.RiskClaimsQuery();
+                    if (!this.RiskClaimsAreLoaded)
+                    {
+                        this.RiskClaimsAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool SmokerStatusIsLoaded { get; private set; }
+        internal Func<SmokerStatus> SmokerStatusQuery { private get; set; }
+        public SmokerStatus SmokerStatus
+        {
+            get
+            {
+                if (this.SmokerStatusQuery == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var result = this.SmokerStatusQuery();
+                    if (!this.SmokerStatusIsLoaded)
+                    {
+                        this.SmokerStatusIsLoaded = result != null;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
+        public bool TelephonesAreLoaded { get; private set; }
+        internal Func<IEnumerable<Telephone>> TelephonesQuery { private get; set; }
+        public IEnumerable<Telephone> Telephones
+        {
+            get
+            {
+                if (this.TelephonesQuery == null)
+                {
+                    return Enumerable.Empty<Telephone>();
+                }
+                else
+                {
+                    var result = this.TelephonesQuery();
+                    if (!this.TelephonesAreLoaded)
+                    {
+                        this.TelephonesAreLoaded = result.Count() > 0;
+                    }
+
+                    return result;
+                }
+            }
+        }
+
         partial void BeforeDeserialize(IQueryable<XElement> elements);
         partial void AfterDeserialize(IQueryable<XElement> elements);
 
